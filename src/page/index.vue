@@ -2,8 +2,8 @@
     <div class="index_bg">
         <div class="index_move" :class="{ 'index_move_toggle': toggle }">
             <p class="index_move_p">
-                <span :class="{ 'fade': !toggle }">Britain</span>
-                <span :class="{ 'fade': toggle }" class="fr">China</span>
+                <span :class="{ 'fade': !toggle }">欧洲 · 伦敦</span>
+                <span :class="{ 'fade': toggle }" class="fr">中国 · 上海</span>
             </p>
         </div>
         <div class="index_center text-center">

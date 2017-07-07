@@ -9,7 +9,7 @@
                     </div>
                     <div class="row dairy-line">
                         <div class="col-md-12">
-                            <div class="panel panel_dairy hover_sh" v-for="arcitle in getArticleList.list">
+                            <div class="panel panel_dairy hover_sh" v-for="arcitle in getArticleList.list" :key="arcitle">
                                 <div class="panel_tit">
                                     <router-link :to="{ name: 'page', params: { aid: arcitle._id }}"><h4>{{arcitle.title}}</h4></router-link>
                                 </div>

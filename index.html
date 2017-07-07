@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>小菠萝</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="format-detection" content="email=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+  <meta charset="UTF-8">
+  <title>小菠萝</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
 </head>
+
 <body>
-<div id="app"></div>
+  <div id="app"></div>
+  <script>
+    //浏览器版本是否低于IE8
+    var lessThenIE8 = function () {
+      var UA = navigator.userAgent,
+        isIE = UA.indexOf('MSIE') > -1,
+        v = isIE ? /\d+/.exec(UA.split(';')[1]) : 'no ie';
+      return v <= 8;
+    }();
+    //使用方法
+    if (lessThenIE8) {
+        alert("浏览器版本太低，请切换到最新版本的浏览器");
+    }
+  </script>
 </body>
+
 </html>

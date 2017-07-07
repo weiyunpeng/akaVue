@@ -1,7 +1,8 @@
 <template>
     <div class="header">
         <div class="container">
-            <div class="logo"><router-link to="/"><img src="/static/img/logo.png" alt="眼镜日记" width="150" height="50"></router-link></div>
+            <div class="logo"><router-link to="/"><img src="/static/img/logo_.png" alt="小菠萝" width="150" height="50"></router-link></div>
+            <!--手机适配，显示菜单按钮-->
             <div class="nav_category" @click="toggleNav"><i class="iconfont icon-category"></i></div>
             <div class="nav_mobile" v-show="showNav" @click="toggleNav">
                 <ul>
@@ -72,4 +73,6 @@
         }
     }
 </script>
-
+<style rel="stylesheet/scss" lang="scss">
+    @import "./../assets/css/style.scss";
+</style>

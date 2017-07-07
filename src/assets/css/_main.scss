@@ -1,0 +1,73 @@
+$baseFontSize: 32px !default;
+// pixels to rem
+@function pxToRem($px) {
+  $temp: $px / $baseFontSize ;
+  @if $temp==0{
+    $temp:0;
+  }@else if $temp<-0.001 {
+
+  } @else if $temp<0.062 {
+    $temp:0.0618760;
+  }
+  @return $temp* 1rem;
+}
+
+@mixin animation($animation) {
+    animation: $animation;
+    -ms-animation:$animation; /* Internet Explorer */
+    -moz-animation:$animation; /* Firefox */
+    -webkit-animation:$animation; /* Safari  Chrome */
+    -o-animation:$animation; /* Opera */
+}
+
+@mixin border-bottom($size: 1px,$style:solid,$color:#343353) {
+  @if $size==1px{
+    border-width: 0px 0px pxToRem($size);
+  }@else{
+    border-bottom:pxToRem($size) $style $color;
+  }
+}
+
+@mixin transform($transformProp){
+  transform:$transformProp;
+  -ms-transform:$transformProp; /* Internet Explorer */
+  -moz-transform:$transformProp; /* Firefox */
+  -webkit-transform:$transformProp; /* Safari  Chrome */
+  -o-transform:$transformProp; /* Opera */
+}
+
+@mixin transition($transitionProp){
+  transition:$transitionProp;
+  -ms-transition:$transitionProp; /* Internet Explorer */
+  -moz-transition:$transitionProp; /* Firefox */
+  -webkit-transition:$transitionProp; /* Safari  Chrome */
+  -o-transition:$transitionProp; /* Opera */
+}
+
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+  @keyframes #{$animationName} {
+    @content;
+  }
+}
+
+@mixin boxShadow($boxShadow){
+    -webkit-box-shadow: $boxShadow;
+    -moz-box-shadow: $boxShadow;
+    box-shadow: $boxShadow;
+}
+
+@mixin filter($filter){
+-webkit-filter: blur($filter); /* Chrome, Opera */
+       -moz-filter: blur($filter);
+        -ms-filter: blur($filter);    
+            filter: blur($filter); 
+}
