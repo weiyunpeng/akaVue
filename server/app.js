@@ -5,8 +5,6 @@ var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/dairy');
 var modelsPath = path.join(__dirname, 'models');
 fs.readdirSync(modelsPath).forEach(function (file) {
     if (/(.*)\.(js$|coffee$)/.test(file)) {
@@ -21,7 +19,7 @@ var errorLog = fs.createWriteStream('error.log', {flags: 'a'});
 
 var app = express();
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3333);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(morgan({stream: accessLog}));
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 routes(app);
 

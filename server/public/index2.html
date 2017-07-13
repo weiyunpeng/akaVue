@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>人脸识别调试接口</title>
+		<script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
+	</head>
+	<style>
+    ul li{
+	    padding: 5px;
+	}
+    a{
+        padding: 5px;
+    }
+    </style>
+	<body>
+        <h3>应用场景(一个应用场景下面会有许多人)</h3>
+		<ul>
+            <li>
+				<form method="get" target="_blank" action="/crowd/get_appinfo">
+                   crowd_id:<input name="crowd_id" value="all"/>
+                   people_id:<input name="people_id" value="all"/>
+                   <input type="submit" value="获取该App相关的信息"/>
+               </form>
+            </li>
+
+			<li>
+				<form method="get" target="_blank" action="/crowd/addCrowd">
+                   crowdName:<input name="crowdName" value="face"/>
+                   tip:<input name="tip" value=""/>
+                   <input type="submit" value="创建应用场景"/>
+               </form>
+            </li>
+            
+            <li>
+				<form method="get" target="_blank" action="/face/index/crowdAdd">
+                   crowdName:<input name="crowdName" value="face"/>
+                   crowdId:<input name="crowdId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   peopleId:<input name="peopleId" value=""/>
+                   <input type="submit" value="将一个人添加到应用场景"/>
+               </form>
+            </li>
+
+			<li>
+				<form method="get" target="_blank" action="/face/index/crowdRemove">
+                   crowdName:<input name="crowdName" value="face"/>
+                   crowdId:<input name="crowdId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   peopleId:<input name="peopleId" value=""/>
+                   <input type="submit" value="将一个人移除应用场景"/>
+               </form>
+            </li>
+
+            <li>
+				<form method="get" target="_blank" action="/face/index/crowdGet">
+                   crowdName:<input name="crowdName" value="face"/>
+                   crowdId:<input name="crowdId" value=""/>
+                   <input type="submit" value="获取应用场景"/>
+               </form>
+            </li>
+
+			<li>
+				<form method="get" target="_blank" action="/face/index/crowdDelete">
+                   crowdName:<input name="crowdName" value="face"/>
+                   crowdId:<input name="crowdId" value=""/>
+                   <input type="submit" value="删除应用场景"/>
+               </form>
+            </li>
+        </ul>
+
+        <h3>创建人(一个人会有许多张脸)</h3>
+		<ul>
+			<li>
+				<form method="get" target="_blank" action="/face/index/peopleCreate">
+                   crowdName:<input name="crowdName" value="face"/>
+                   crowdId:<input name="crowdId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   faceId:<input name="faceId" value=""/>
+                   tip:<input name="tip" value=""/>
+                   <input type="submit" value="创建人"/>
+               </form>
+            </li>
+            <li>
+				<form method="get" target="_blank" action="/face/index/peopleAdd">
+                   peopleId:<input name="peopleId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   faceId（可传入一组用逗号分隔的face_id列表）:<input name="faceId" value=""/>
+                   <input type="submit" value="为这个人增加人脸"/>
+               </form>
+            </li>
+			<li>
+				<form method="get" target="_blank" action="/face/index/peopleRemove">
+                   peopleId:<input name="peopleId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   faceId（可传入一组用逗号分隔的face_id列表）:<input name="faceId" value=""/>
+                   <input type="submit" value="为这个人删除人脸"/>
+               </form>
+            </li>
+			<li>
+				<form method="get" target="_blank" action="/face/index/peopleSet">
+                   peopleId:<input name="peopleId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   name:<input name="name" value=""/>
+                   tip:<input name="tip" value=""/>
+                   <input type="submit" value="修改人的名字和备注"/>
+               </form>
+            </li>
+			<li>
+				<form method="get" target="_blank" action="/face/index/peopleGet">
+                   peopleId:<input name="peopleId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   <!--type(type=face，返回人脸相关信息):<input name="type" value="face"/>-->
+                   <input type="submit" value="查找一个人的信息"/>
+               </form>
+            </li>
+            <li>
+				<form method="get" target="_blank" action="/face/index/peopleDelete">
+                   peopleId:<input name="peopleId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   <input type="submit" value="删除人"/>
+               </form>
+            </li>
+        </ul>
+
+	    <h3>人脸识别</h3>
+	    <ul>
+            <li>
+                <span>添加一个人脸，获取人脸的信息：</span>
+				<input type="file" id="fcfile" name="fcfile" multiple>
+				<span style="color:red" id="showRet">结果为：</span>
+				<script>
+					$("#fcfile").on('change', function(e) {
+						e.preventDefault();
+						var files = e.target.files || e.dataTransfer.files;
+						var reader = new FileReader();
+						reader.readAsDataURL(files[0]);
+						reader.onload = function(e) {
+							var imgObj = e.target.result;
+							$.ajax({
+								type: 'post',
+								url: "/face/index/checking",
+								data: {
+									images:imgObj
+								},
+								dataType: "json",
+								success: function(data) {
+									if(data.status){
+										// console.log(data.msg);
+										$('#showRet').html("返回值："+JSON.stringify(data));
+										return false;
+									}else{
+										// console.log(data.msg);
+										$('#showRet').html(JSON.stringify(data));
+										return false;
+									}
+								}
+							});
+						}
+					})
+				</script>
+            </li>
+            <li>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="file" id="File" name="File"/>
+                    <button id="uploadDB" type="button">获取人脸的信息（带数据库）</button>
+                </form>
+                <span style="color:blue" id="showRet2">结果为：</span>
+				<script>
+					$("#uploadDB").on('click', function(e) {
+						e.preventDefault();
+                        var files = e.target.files || e.dataTransfer.files;
+                        var reader = new FileReader();
+						reader.readAsDataURL(files[0]);
+						reader.onload = function(e) {
+                        $.ajax({
+                            type: 'post',
+                            url: "/face/faceGet/faceCreat",
+                            data: {
+                                images:imgObj
+                            },
+                            dataType: "json",
+                            success: function(data) {
+                                    if(data.status){
+                                        $('#showRet2').html("返回值："+JSON.stringify(data));
+                                        return false;
+                                    }else{
+                                        $('#showRet2').html(JSON.stringify(data));
+                                        return false;
+                                    }
+                                }
+                            });
+                        }
+					})
+				</script>
+            </li>
+			<li>
+				<form method="get" target="_blank" action="/face/index/faceCompare">
+                   faceId1:<input name="faceId1" value=""/>
+                   faceId2:<input name="faceId2" value=""/>
+                   <input type="submit" value="两个人脸进行比较"/>
+               </form>
+            </li>
+			<li>
+				<form method="get" target="_blank" action="/face/index/faceVerify">
+                   faceId:<input name="faceId" value=""/>
+                   peopleId:<input name="peopleId" value=""/>
+                   peopleName:<input name="peopleName" value=""/>
+                   <input type="submit" value="验证当前人脸是否为某个人"/>
+               </form>
+            </li>
+			<li>
+				<form method="get" target="_blank" action="/face/index/faceIdentify">
+                   faceId:<input name="faceId" value=""/>
+                   crowdId:<input name="crowdId" value=""/>
+                   crowdName:<input name="crowdName" value=""/>
+                   <input type="submit" value="验证当前人脸是否为特定场景中的某个人"/>
+               </form>
+            </li>
+	    </ul>
+	</body>
+</html>

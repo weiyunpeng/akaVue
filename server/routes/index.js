@@ -1,4 +1,4 @@
-var path = require('path');
+var MAIN = require('./../main');
 
 module.exports = function(app) {
     app.all('*', function(req, res, next) {
@@ -21,7 +21,11 @@ module.exports = function(app) {
 
     app.use('/album', require('./album/index'));
 
-    app.use('/*', function (req,res,next) {
-        return res.json({status:'success',data:'复制黏贴 一把梭'});
+    app.use('/crowd', require('./crowd/index'));
+
+    app.use('/', function (req,res,next) {
+        // return res.json({status:'success',data:'复制黏贴 一把梭'});
+        var fileName = './public/index2.html'
+        MAIN.responseStub(res,fileName)
     })
 };

@@ -7,6 +7,42 @@ var message = require('./util/message.js');
 var request = require('request');
 var path = require("path");
 var fs = require("fs");
+var mongoose = require('mongoose');
+
+/**
+ *服务器地址以及配置
+ */
+exports.serverUrl = "http://api.eyekey.com";
+exports.APP_ID = "58444d8725f44375b6ff710172a83d12"
+exports.APP_KEY = "909615ad47ed407ab13eb97935461a00"
+
+/**
+ * 数据库配置
+ * mlab ds017256.mlab.com:17256/mongoyun root 123123
+ * local mongodb://127.0.0.1:27017/face  faceuser 123456
+ */
+var databaseConfig = {
+    url:'mongodb://127.0.0.1:27017/face',
+    userName:'faceuser',
+    passWorld:'123456',
+};
+var url = databaseConfig.url;
+var options = {
+    db: { native_parser: true },
+    server: { poolSize: 5 },
+    // replset: { rs_name: 'test' },
+    user: databaseConfig.userName,
+    pass: databaseConfig.passWorld
+};
+mongoose.connect(url, options, function (err){
+    if (err){
+        console.log('mongoose error = ' + err);
+    }
+});
+exports.mongoose = mongoose;
+
+
+
 //从message对象里面导出
 exports.getMessageObj = message.getMessageObj;
 //导出message字符串，通过名称
@@ -62,13 +98,6 @@ function responseEnd(response, result) {
     response.end(html);
 };
 exports.responseEnd = responseEnd;
-
-/**
- *服务器地址以及配置
- */
-exports.serverUrl = "http://api.eyekey.com";
-exports.APP_ID = "58444d8725f44375b6ff710172a83d12"
-exports.APP_KEY = "909615ad47ed407ab13eb97935461a00"
 
 exports.headers = {
     "Content-Type": "text/html",
@@ -144,10 +173,10 @@ function ajaxCall(Param, Request, Response, extObj) {
             if(ajaxdata.res_code == 1067){
                 //说明未检测到人脸
                 Response.setHeader("Content-Type", "application/json; charset=utf-8");
-                Response.end(JSON.stringify(ajaxdata.message));
+                Response.end(JSON.stringify(ajaxdata));
             }else if(ajaxdata.res_code == 1011){
                 Response.setHeader("Content-Type", "application/json; charset=utf-8");
-                Response.end(JSON.stringify(ajaxdata.message));
+                Response.end(JSON.stringify(ajaxdata));
             }else if(ajaxdata.res_code == 0000){
                 extObj.success(ajaxdata);
             }else{
