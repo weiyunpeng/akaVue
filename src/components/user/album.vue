@@ -15,10 +15,10 @@
                     <input type="file"  v-show="false" ref="filephoto" @change="handleChange"  multiple="multiple" accept="image/*">
                 </div>
             </div>
-            <div class="panel_album" v-for="(item,itemIndex) in getPhotoUser.list">
+            <div class="panel_album" v-for="(item,itemIndex) in getPhotoUser.list" :key="item">
                 <p class="panel_color_grey">{{item.date }}</p>
                 <ul class="row">
-                    <li class="panel_album_li col-md-3" v-for="(photo,photoIndex) in item.list">
+                    <li class="panel_album_li col-md-3" v-for="(photo,photoIndex) in item.list" :key="photo">
                         <div class="panel panel_album_img" :style="{ backgroundImage: 'url(' + photo.thumbnail + ')'}">
                             <div class="panel_album_top text-right">
                                 <span class="panel album_like" @click="photoLikeBtn(photo._id,itemIndex,photoIndex)"><i class="iconfont icon-like"></i> {{photo.likeCount}}</span>

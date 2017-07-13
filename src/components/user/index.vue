@@ -6,7 +6,7 @@
         <div class="col-md-9 pad_l0">
             <div class="row dairy-line">
                 <div class="col-md-12">
-                    <div class="panel panel_dairy hover_sh" v-for="arcitle in getArticleUser.list">
+                    <div class="panel panel_dairy hover_sh" v-for="arcitle in getArticleUser.list" :key="arcitle">
                         <div class="panel_tit">
                             <router-link :to="{ name: 'page', params: { aid: arcitle._id }}">
                                 <h4>{{arcitle.title}}</h4>
